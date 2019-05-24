@@ -4,7 +4,7 @@ import Form from "./components/Form";
 
 const API_KEY ="dfc1b58e7ecdfba571b36a9152292668";
 class App extends React.Component {
-/*
+
 onClickInForm1 = (event)=>{console.log(`нажали 1`);
 event.preventDefault();
 }
@@ -14,7 +14,7 @@ event.preventDefault();
 onClickInForm3 = (event)=>{console.log(`нажали 3`);
 event.preventDefault();
 }
-*/
+
 OnSubmitInForm = async (event)=>{
 //const DAY = event.target.elements.day.value;
 const CITY =event.target.elements.field.value;
@@ -36,9 +36,9 @@ event.preventDefault();
         привет из главного компонента
         <Template />
         <Form formProp0={this.OnSubmitInForm}
-              /*formProp1={this.onClickInForm}
+              formProp1={this.onClickInForm}
               formProp2={this.onClickInForm2}
-              formProp3={this.onClickInForm3}*/
+              formProp3={this.onClickInForm3}
         />
 
       </div>
