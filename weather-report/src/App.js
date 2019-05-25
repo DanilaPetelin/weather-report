@@ -8,7 +8,8 @@ class App extends React.Component {
     city: undefined,
     temp: undefined,
     pressure: undefined,
-    humidity: undefined
+    humidity: undefined,
+    icon: undefined
   };
   /*
 onClickInForm1 = (event)=>{console.log(`нажали 1`);
@@ -41,7 +42,8 @@ event.preventDefault();
             city: data.name,
             temp: data.main.temp,
             pressure: data.main.pressure,
-            humidity: data.main.humidity
+            humidity: data.main.humidity,
+            icon: data.weather[0].icon
           });
         });
     }
@@ -50,7 +52,6 @@ event.preventDefault();
   render() {
     return (
       <div>
-        привет из главного компонента
         <Form
           formProp0={this.OnSubmitInForm}
           //formProp1={this.onClickInForm1}
@@ -62,6 +63,7 @@ event.preventDefault();
           temp={this.state.temp}
           pressure={this.state.pressure}
           humidity={this.state.humidity}
+          icon={this.state.icon}
         />
       </div>
     );
