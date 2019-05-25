@@ -13,6 +13,7 @@ class TodayWeather extends React.Component {
             <p>Температура: {this.props.temp}</p>
             <p>Давление: {this.props.pressure*0.75}</p>
             <p>Влажность: {this.props.humidity}%</p>
+            <p>period: {this.props.period}</p>
           </div>
         )}
       </div>

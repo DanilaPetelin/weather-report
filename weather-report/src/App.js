@@ -1,41 +1,54 @@
 import React from "react";
 import Form from "./components/Form";
 import TodayWeather from "./components/TodayWeather";
+import Forecast from "./components/Forecast";
 
 const API_KEY = "dfc1b58e7ecdfba571b36a9152292668";
+
 class App extends React.Component {
   state = {
     city: undefined,
     temp: undefined,
     pressure: undefined,
     humidity: undefined,
-    icon: undefined
+    icon: undefined,
+    period : 1
   };
-  /*
-onClickInForm1 = (event)=>{console.log(`нажали 1`);
-event.preventDefault();
-}
-onClickInForm2 = (event)=>{console.log(`нажали 2`);
-event.preventDefault();
-}
-onClickInForm3 = (event)=>{console.log(`нажали 3`);
-event.preventDefault();
-}
-*/
-  OnSubmitInForm = async event => {
-    //const DAY = event.target.elements.day.value;
+
+  onClickInForecast2 = (event)=>{
+    event.preventDefault();
+    this.setState({period : 2});
+  };
+
+  onClickInForecast5 = (event)=>{
+    event.preventDefault();
+    this.setState({period : 5});
+  };
+
+  OnSubmitInForm = (event) => {
+    event.preventDefault();
+    this.setState({period : 1});
     const CITY = event.target.elements.field.value;
-    //const butval = event.target.elements.butt1.value;
-    if (CITY) {
-      console.log(`${CITY}   `);
-      //для прогноза на 5 дней
-      //let PERIOD ="forecast";
-      //для прогноза на 1 день
-      let PERIOD = "weather";
-      event.preventDefault();
+    let temp1=this.state.period
+    console.log(temp1);
+    this.parsData(CITY, temp1);
+  };
+  //-----------------------------------------------
+parsData = async (city, period) =>
+  {
+    //для прогноза на 1 день PERIOD = "weather" для прогноза на 5 дней PERIOD ="forecast"
+    let PERIOD ="weather";
+    if (period !== 1) {
+      PERIOD ="forecast";
+    };
+
+    console.log(PERIOD);
+
+    if (city) {
+      console.log(`${city}`);
       fetch(
-        `https://api.openweathermap.org/data/2.5/${PERIOD}?q=${CITY}&appid=${API_KEY}&units=metric`
-      )
+        `https://api.openweathermap.org/data/2.5/${PERIOD}?q=${city}&appid=${API_KEY}&units=metric`
+        )
         .then(response => response.json())
         .then(data => {
           this.setState({
@@ -48,15 +61,14 @@ event.preventDefault();
         });
     }
   };
-
+//----------------------------------------------------
   render() {
     return (
       <div>
-        <Form
-          formProp0={this.OnSubmitInForm}
-          //formProp1={this.onClickInForm1}
-          //formProp2={this.onClickInForm2}
-          // formProp3={this.onClickInForm3}
+        <Form formProp0={this.OnSubmitInForm} />
+        <Forecast
+          forecastProp2={this.onClickInForecast2}
+          forecastProp5={this.onClickInForecast5}
         />
         <TodayWeather
           city={this.state.city}
@@ -64,8 +76,9 @@ event.preventDefault();
           pressure={this.state.pressure}
           humidity={this.state.humidity}
           icon={this.state.icon}
+          period={this.state.period}
         />
-      </div>
+    </div>
     );
   }
 }
