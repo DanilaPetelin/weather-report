@@ -1,83 +1,69 @@
 import React from "react";
 import Form from "./components/Form";
 import TodayWeather from "./components/TodayWeather";
-import Forecast from "./components/Forecast";
-
-const API_KEY = "dfc1b58e7ecdfba571b36a9152292668";
 
 class App extends React.Component {
-  state = {
-    city: undefined,
-    temp: undefined,
-    pressure: undefined,
-    humidity: undefined,
-    icon: undefined,
-    period : 1
-  };
+    state = {
+        cityInForm: undefined,
+        period : 1,
+        city: undefined,
+        temp: undefined,
+        pressure: undefined,
+        humidity: undefined,
+        icon: undefined
+      };
 
-  onClickInForecast2 = (event)=>{
-    event.preventDefault();
-    this.setState({period : 2});
-  };
-
-  onClickInForecast5 = (event)=>{
-    event.preventDefault();
-    this.setState({period : 5});
-  };
-
-  OnSubmitInForm = (event) => {
-    event.preventDefault();
-    this.setState({period : 1});
-    const CITY = event.target.elements.field.value;
-    let temp1=this.state.period
-    console.log(temp1);
-    this.parsData(CITY, temp1);
-  };
-  //-----------------------------------------------
-parsData = async (city, period) =>
-  {
-    //для прогноза на 1 день PERIOD = "weather" для прогноза на 5 дней PERIOD ="forecast"
-    let PERIOD ="weather";
-    if (period !== 1) {
-      PERIOD ="forecast";
+      //-----------заглушка функция--------------------------
+    parsData = async (city, period) =>{
+      console.log(`cityInForm parsing ${city}`);
+      console.log(`period from parsing ${period}`);
+      this.setState((state)=> {return {city:"KieV" }} );
+      this.setState((state)=> {return {temp: 40 }} );
+      this.setState((state)=> {return {pressure: 576 }} );
+      this.setState((state)=> {return {humidity: "SunnY" }} );
+      this.setState((state)=> {return {icon: "url_picture" }} );
     };
+     //----------------------------------------------------
 
-    console.log(PERIOD);
+    changePeriod= (a)=>{this.setState( (state)=> {return {period: a}} );};
+    changeCityInForm= (str)=>{this.setState((state)=> {return {cityInForm: str}} );};
 
-    if (city) {
-      console.log(`${city}`);
-      fetch(
-        `https://api.openweathermap.org/data/2.5/${PERIOD}?q=${city}&appid=${API_KEY}&units=metric`
-        )
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            city: data.name,
-            temp: data.main.temp,
-            pressure: data.main.pressure,
-            humidity: data.main.humidity,
-            icon: data.weather[0].icon
-          });
-        });
+    handleChange(e) {
+      e.preventDefault();
+      let CITY1=this.state.cityInForm;
+      let PERIOD1=this.state.period;
+      //console.log(e.target.type);
+
+      if(e.target.type !== "button"){
+        this.changeCityInForm(e.target.elements.field.value);
+      //console.log(`submit в форме, город: ${e.target.elements.field.value}`)
+      CITY1=e.target.elements.field.value;
+      };
+
+      if(e.target.type === "button"){
+        if (e.target.name ==="butt1"){
+          this.changePeriod(1);
+          PERIOD1=1;
+        };
+        if (e.target.name ==="butt2"){
+          this.changePeriod(2);
+          PERIOD1=2;
+        };
+        if (e.target.name ==="butt5"){
+          this.changePeriod(5);
+          PERIOD1=5;
+        };
+        //console.log(`нажали  ${e.target.name}`);
+      }
+      console.log(`город  ${CITY1} период ${PERIOD1}`);
+      this.parsData(CITY1,PERIOD1);
     }
-  };
-//----------------------------------------------------
+
   render() {
     return (
       <div>
-        <Form formProp0={this.OnSubmitInForm} />
-        <Forecast
-          forecastProp2={this.onClickInForecast2}
-          forecastProp5={this.onClickInForecast5}
-        />
-        <TodayWeather
-          city={this.state.city}
-          temp={this.state.temp}
-          pressure={this.state.pressure}
-          humidity={this.state.humidity}
-          icon={this.state.icon}
-          period={this.state.period}
-        />
+        <Form formProp0={this.handleChange.bind(this)}/>
+        <TodayWeather state={this.state}/>
     </div>
     );
   }
