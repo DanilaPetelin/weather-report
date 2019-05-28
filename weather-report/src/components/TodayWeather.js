@@ -2,17 +2,20 @@ import React from "react";
 
 class TodayWeather extends React.Component {
   render() {
+
     const img1 = `https://openweathermap.org/img/w/${this.props.state.icon[0]}.png`;
     const img2 = `https://openweathermap.org/img/w/${this.props.state.icon[1]}.png`;
     const img3 = `https://openweathermap.org/img/w/${this.props.state.icon[2]}.png`;
     const img4 = `https://openweathermap.org/img/w/${this.props.state.icon[3]}.png`;
     const img5 = `https://openweathermap.org/img/w/${this.props.state.icon[4]}.png`;
+
     console.log("from TodayWeather:");
     console.log(`period  : ${this.props.state.period}`);
     console.log(`cityInForm : ${this.props.state.cityInForm}`);
     console.log(`city : ${this.props.state.city}`);
     return (
       <div>
+
         <h1>{this.props.state.city}</h1>
         {this.props.state.city && this.props.state.period === 1 && (
           <div>

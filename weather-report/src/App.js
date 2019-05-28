@@ -18,7 +18,6 @@ class App extends React.Component {
         error: undefined
       };
 
-      //-----------заглушка функция--------------------------
     parsData = async (city, period) =>{
       if (city && city !== this.state.city) {
         console.log(`${city}`);
@@ -68,8 +67,8 @@ class App extends React.Component {
       error: "Введите название города"
         });
       }
+
     };
-     //----------------------------------------------------
 
     changePeriod= (a)=>{this.setState( (state)=> {return {period: a}} );};
     changeCityInForm= (str)=>{this.setState((state)=> {return {cityInForm: str}} );};
@@ -78,7 +77,6 @@ class App extends React.Component {
       e.preventDefault();
       let CITY1=this.state.cityInForm;
       let PERIOD1=this.state.period;
-
 
       if(e.target.type !== "button"){
         this.changeCityInForm(e.target.elements.field.value);
